@@ -1,0 +1,2 @@
+class Cryptocurrency < Integration
+end
