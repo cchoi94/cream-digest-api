@@ -2,10 +2,10 @@
 
 Rails.application.routes.draw do
   devise_for :users,
-             controllers: {
-               sessions: 'users/sessions',
-               registrations: 'users/registrations'
-             }
+    controllers: {
+      sessions: "users/sessions",
+      registrations: "users/registrations"
+    }
 
   namespace :api do
     namespace :v1 do
@@ -19,8 +19,8 @@ Rails.application.routes.draw do
           post :check_reset_password_token
           post :reset_password
         end
-      resources :integrations
       end
+      resources :integrations
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

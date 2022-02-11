@@ -1,2 +1,2 @@
-class Stock < integration
+class Stock < Integration
 end
