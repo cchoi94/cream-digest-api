@@ -26,10 +26,10 @@ module Api
 
       def update
         @integration.assign_attributes(integration_params)
-        if @integration.access_token.present?
+        if integration_params[:access_token].present?
           @integration.access_token = @integration.encrypt_token(@integration.access_token)
         end
-        if @integration.refresh_token.present?
+        if integration_params[:refresh_token].present?
           @integration.refresh_token = @integration.encrypt_token(@integration.refresh_token)
         end
         if @integration.save!
