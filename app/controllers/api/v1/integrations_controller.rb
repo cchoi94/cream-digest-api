@@ -21,21 +21,22 @@ module Api
       end
 
       def create
-        Integration.new(integration_params)
+        integration = current_user.integrations.new(integration_params)
+        encrypted_integration = encrypt_integration_tokens(integration, integration_params)
+        if encrypted_integration.save!
+          render json: encrypted_integration
+        else
+          render json: encrypted_integration.errors, status: :unprocessable_entity
+        end
       end
 
       def update
         @integration.assign_attributes(integration_params)
-        if integration_params[:access_token].present?
-          @integration.access_token = @integration.encrypt_token(@integration.access_token)
-        end
-        if integration_params[:refresh_token].present?
-          @integration.refresh_token = @integration.encrypt_token(@integration.refresh_token)
-        end
-        if @integration.save!
-          render json: @integration
+        encrypted_integration = encrypt_integration_tokens(@integration, integration_params)
+        if encrypted_integration.save!
+          render json: encrypted_integration
         else
-          render json: @integration.errors, status: :unprocessable_entity
+          render json: encrypted_integration.errors, status: :unprocessable_entity
         end
       end
 
@@ -55,6 +56,16 @@ module Api
 
       def integration_params
         params.require(:integration).permit(:name, :user_id, :access_token, :refresh_token)
+      end
+
+      def encrypt_integration_tokens (integration, integration_params)
+        if integration_params[:access_token].present?
+          integration.access_token = integration.encrypt_token(integration.access_token)
+        end
+        if integration_params[:refresh_token].present?
+          integration.refresh_token = integration.encrypt_token(integration.refresh_token)
+        end
+        integration
       end
     end
   end
