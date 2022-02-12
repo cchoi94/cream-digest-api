@@ -5,6 +5,10 @@ module Api
       before_action :set_integration, only: %i[show update destroy]
       before_action :has_oauth_integration?, only: %i[get_oauth_url set_oauth_tokens]
 
+      def test_qt
+        HardJob.perform_async('bob', 5)
+      end
+
       def index
         if current_user.present?
           render json: current_user.integrations
