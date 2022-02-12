@@ -1,4 +1,3 @@
-
 module Users
   class SessionsController < Devise::SessionsController
     private

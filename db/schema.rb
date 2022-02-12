@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_11_230041) do
+ActiveRecord::Schema.define(version: 2022_02_12_205654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 2022_02_11_230041) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "client_id"
     t.string "secret_key"
-    t.string "questrade_account_number"
     t.index ["user_id"], name: "index_integrations_on_user_id"
   end
 
@@ -38,12 +37,12 @@ ActiveRecord::Schema.define(version: 2022_02_11_230041) do
     t.string "name", null: false
     t.string "type", null: false
     t.decimal "amount", null: false
-    t.decimal "start_of_day_price"
     t.bigint "integration_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "account_type"
-    t.string "account_number"
+    t.json "account", default: {"type"=>"", "id"=>"", "status"=>""}
+    t.decimal "price"
+    t.decimal "open_pnl"
     t.index ["integration_id"], name: "index_positions_on_integration_id"
   end
 
@@ -66,7 +65,7 @@ ActiveRecord::Schema.define(version: 2022_02_11_230041) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "phone", default: ""
     t.boolean "send_daily_email", default: false
-    t.jsonb "onboarding", default: {"has_integration"=>false, "has_choosen_option"=>false}
+    t.json "onboarding", default: {"has_integration"=>false, "has_choosen_option"=>false}
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

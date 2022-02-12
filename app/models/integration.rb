@@ -8,12 +8,16 @@ class Integration < ApplicationRecord
     crypt.encrypt_and_sign(string)
   end
 
+  def decrypt_string(string)
+    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31],
+      Rails.application.secrets.secret_key_base)
+    crypt.decrypt_and_verify(string)
+  end
+
   def handle_positions_creation
     case name
-    when 'questrade'
-      QuestradeApi::Base.call
-    else
-      nil
+    when "questrade"
+      QuestradeApi::Sync.call(self)
     end
     # create_position
   end

@@ -1,4 +1,4 @@
-module Users 
+module Users
   class RegistrationsController < Devise::RegistrationsController
     private
 

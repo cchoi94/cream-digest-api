@@ -2,13 +2,13 @@
 
 Rails.application.routes.draw do
   devise_for :users,
-  defaults: { format: :json },
+    defaults: {format: :json},
     controllers: {
       sessions: "users/sessions",
       registrations: "users/registrations"
     }
 
-  namespace :api, defaults: { format: :json }  do
+  namespace :api, defaults: {format: :json} do
     namespace :v1 do
       resource :users, only: [] do
         member do
@@ -22,7 +22,8 @@ Rails.application.routes.draw do
         end
       end
       resources :integrations
-      get '/get_oauth_url', to: 'integrations#get_oauth_url'
+      get "/get_oauth_url", to: "integrations#get_oauth_url"
+      get "/test_qt/:id", to: "integrations#test_qt"
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

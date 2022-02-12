@@ -3,7 +3,7 @@ module Api
     class IntegrationsController < ApplicationController
       before_action :authenticate_user!
       before_action :set_integration, only: %i[show update destroy]
-      before_action :has_oauth_integration?, only: %i[get_oauth_url, set_oauth_tokens]
+      before_action :has_oauth_integration?, only: %i[get_oauth_url set_oauth_tokens]
 
       def index
         if current_user.present?
@@ -15,7 +15,7 @@ module Api
 
       def show
         if @integration.present?
-          render json: @integration
+          render json: @integration.handle_positions_creation
         else
           render json: @integration.errors, status: :unprocessable_entity
         end
@@ -61,7 +61,6 @@ module Api
       private
 
       def set_integration
-        puts "running?"
         @integration = current_user.integrations.find(params[:id])
       end
 
@@ -69,7 +68,7 @@ module Api
         params.require(:integration).permit(:name, :user_id, :access_token, :refresh_token, :oauth_code, :client_id, :secret_key)
       end
 
-      def encrypt_integration (integration, integration_params)
+      def encrypt_integration(integration, integration_params)
         if integration_params[:access_token].present?
           integration.access_token = integration.encrypt_string(integration.access_token)
         end
