@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         end
       end
       resources :integrations
+      get '/get_oauth_url', to: 'integrations#get_oauth_url'
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

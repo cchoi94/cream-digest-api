@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Users
   class SessionsController < Devise::SessionsController
     private
@@ -17,7 +15,7 @@ module Users
     end
 
     def log_out_failure
-      render json: {message: "Logged out failure.", errors: response.errors}, status: :unauthorized
+      render json: {message: "Logged out failure.", errors: resource.errors}, status: :unauthorized
     end
   end
 end

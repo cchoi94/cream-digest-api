@@ -1,2 +1,2 @@
-class Cryptocurrency < Integration
+class Cryptocurrency < Position
 end

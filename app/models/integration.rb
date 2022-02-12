@@ -1,13 +1,20 @@
 class Integration < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-
   belongs_to :user
-  has_many :assets
+  has_many :positions
 
-  def encrypt_token(token)
+  def encrypt_string(string)
     crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31],
       Rails.application.secrets.secret_key_base)
-    crypt.encrypt_and_sign(token)
+    crypt.encrypt_and_sign(string)
+  end
+
+  def handle_positions_creation
+    case name
+    when 'questrade'
+      Questrade::Base.call
+    else
+      nil
+    end
+    # create_position
   end
 end

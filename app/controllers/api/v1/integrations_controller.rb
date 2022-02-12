@@ -3,6 +3,7 @@ module Api
     class IntegrationsController < ApplicationController
       before_action :authenticate_user!
       before_action :set_integration, only: %i[show update destroy]
+      before_action :has_oauth_integration?, only: %i[get_oauth_url, set_oauth_tokens]
 
       def index
         if current_user.present?
@@ -22,9 +23,9 @@ module Api
 
       def create
         integration = current_user.integrations.new(integration_params)
-        encrypted_integration = encrypt_integration_tokens(integration, integration_params)
+        encrypted_integration = encrypt_integration(integration, integration_params)
         if encrypted_integration.save!
-          render json: encrypted_integration
+          encrypted_integration.handle_positions_creation
         else
           render json: encrypted_integration.errors, status: :unprocessable_entity
         end
@@ -32,7 +33,7 @@ module Api
 
       def update
         @integration.assign_attributes(integration_params)
-        encrypted_integration = encrypt_integration_tokens(@integration, integration_params)
+        encrypted_integration = encrypt_integration(@integration, integration_params)
         if encrypted_integration.save!
           render json: encrypted_integration
         else
@@ -48,24 +49,44 @@ module Api
         end
       end
 
+      def get_oauth_url
+        case params[:name]
+        when "questrade"
+          render json: Questrade.oauth_url
+        else
+          render json: {message: "#{params[:name]} is not an oauth"}
+        end
+      end
+
       private
 
       def set_integration
+        puts "running?"
         @integration = current_user.integrations.find(params[:id])
       end
 
       def integration_params
-        params.require(:integration).permit(:name, :user_id, :access_token, :refresh_token)
+        params.require(:integration).permit(:name, :user_id, :access_token, :refresh_token, :oauth_code, :client_id, :secret_key)
       end
 
-      def encrypt_integration_tokens (integration, integration_params)
+      def encrypt_integration (integration, integration_params)
         if integration_params[:access_token].present?
-          integration.access_token = integration.encrypt_token(integration.access_token)
+          integration.access_token = integration.encrypt_string(integration.access_token)
         end
         if integration_params[:refresh_token].present?
-          integration.refresh_token = integration.encrypt_token(integration.refresh_token)
+          integration.refresh_token = integration.encrypt_string(integration.refresh_token)
+        end
+        if integration_params[:client_id].present?
+          integration.client_id = integration.encrypt_string(integration.client_id)
+        end
+        if integration_params[:secret_key].present?
+          integration.secret_key = integration.encrypt_string(integration.secret_key)
         end
         integration
+      end
+
+      def has_oauth_integration?
+        return render json: {message: "Integration name not specified"} unless integration_params[:name].present?
       end
     end
   end

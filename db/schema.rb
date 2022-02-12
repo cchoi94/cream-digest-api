@@ -10,29 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_11_034842) do
+ActiveRecord::Schema.define(version: 2022_02_11_230041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "assets", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "type", null: false
-    t.decimal "amount", null: false
-    t.decimal "start_of_day_price"
-    t.bigint "integration_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["integration_id"], name: "index_assets_on_integration_id"
-  end
-
   create_table "integrations", force: :cascade do |t|
-    t.string "access_token", null: false
-    t.string "refresh_token", null: false
+    t.string "access_token"
+    t.string "refresh_token"
     t.string "name", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "client_id"
+    t.string "secret_key"
+    t.string "questrade_account_number"
     t.index ["user_id"], name: "index_integrations_on_user_id"
   end
 
@@ -40,6 +32,19 @@ ActiveRecord::Schema.define(version: 2022_02_11_034842) do
     t.string "jti", null: false
     t.datetime "exp", null: false
     t.index ["jti"], name: "index_jwt_denylist_on_jti"
+  end
+
+  create_table "positions", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "type", null: false
+    t.decimal "amount", null: false
+    t.decimal "start_of_day_price"
+    t.bigint "integration_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "account_type"
+    t.string "account_number"
+    t.index ["integration_id"], name: "index_positions_on_integration_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -66,6 +71,6 @@ ActiveRecord::Schema.define(version: 2022_02_11_034842) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "assets", "integrations"
   add_foreign_key "integrations", "users"
+  add_foreign_key "positions", "integrations"
 end
