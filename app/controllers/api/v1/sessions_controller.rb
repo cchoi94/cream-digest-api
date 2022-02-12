@@ -1,4 +1,5 @@
-
+module Api
+  module V1
 module Users
   class SessionsController < Devise::SessionsController
     private
@@ -19,4 +20,6 @@ module Users
       render json: {message: "Logged out failure.", errors: resource.errors}, status: :unauthorized
     end
   end
+end
+end
 end

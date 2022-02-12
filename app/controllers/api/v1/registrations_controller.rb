@@ -1,5 +1,9 @@
+module Api
+  module V1
 module Users 
   class RegistrationsController < Devise::RegistrationsController
+    respond_to :json
+
     private
 
     def respond_with(resource, _opts = {})
@@ -14,4 +18,6 @@ module Users
       render json: {message: "Signed up failure.", errors: resource.errors}
     end
   end
+end
+end
 end

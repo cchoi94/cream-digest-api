@@ -2,12 +2,13 @@
 
 Rails.application.routes.draw do
   devise_for :users,
+  defaults: { format: :json },
     controllers: {
       sessions: "users/sessions",
       registrations: "users/registrations"
     }
 
-  namespace :api do
+  namespace :api, defaults: { format: :json }  do
     namespace :v1 do
       resource :users, only: [] do
         member do

@@ -11,7 +11,7 @@ class Integration < ApplicationRecord
   def handle_positions_creation
     case name
     when 'questrade'
-      Questrade::Base.call
+      QuestradeApi::Base.call
     else
       nil
     end
