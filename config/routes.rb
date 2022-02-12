@@ -1,6 +1,8 @@
-# frozen_string_literal: true
+require 'sidekiq/web'
+Sidekiq::Web.app_url = '/'
 
 Rails.application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
   devise_for :users,
     defaults: {format: :json},
     controllers: {
