@@ -1,3 +1,3 @@
-my_first_job:
-  cron: "*/10 * * * * *"
-  class: "DailyMail"
+# my_first_job:
+#   cron: "*/10 * * * * *"
+#   class: "DailyMail"
