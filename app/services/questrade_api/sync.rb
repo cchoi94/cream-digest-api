@@ -18,10 +18,7 @@ module QuestradeApi
     end
 
     def self.headers(integration)
-      puts "@@@@@@@@@@ headers top @@@@@@@@@@@"
       res = HTTParty.get("https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=#{integration.decrypt_string(integration.refresh_token)}")
-      puts res
-      puts "@@@@@@@@@@ headers after get call @@@@@@@@@@@"
       integration.update(
         access_token: integration.encrypt_string(res.parsed_response["access_token"]),
         refresh_token: integration.encrypt_string(res.parsed_response["refresh_token"])
@@ -31,6 +28,12 @@ module QuestradeApi
         Accept: "application/json",
         Authorization: "Bearer #{res.parsed_response["access_token"]}"
       }
+    rescue => error
+      puts "@@@@@@@@@@ error headers @@@@@@@@@"
+      puts error.message
+      puts error
+      Rails.logger.error(error.message)
+      error
     end
   end
 end
