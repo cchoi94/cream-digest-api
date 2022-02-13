@@ -4,14 +4,14 @@ class Integration < ApplicationRecord
   has_many :balances
 
   def encrypt_string(string)
-    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31],
-      Rails.application.secrets.secret_key_base)
+    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secret_key_base[0..31],
+      Rails.application.secret_key_base)
     crypt.encrypt_and_sign(string)
   end
 
   def decrypt_string(string)
-    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31],
-      Rails.application.secrets.secret_key_base)
+    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secret_key_base[0..31],
+      Rails.application.secret_key_base)
     crypt.decrypt_and_verify(string)
   end
 
