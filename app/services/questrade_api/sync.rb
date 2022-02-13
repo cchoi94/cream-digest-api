@@ -8,6 +8,8 @@ module QuestradeApi
 
     def call
       questrade_accounts = QuestradeApi::Accounts.get(integration)
+      puts "@@@@@@@@@ questrade_accounts @@@@@@@@@"
+      puts questrade_accounts
       return [] unless questrade_accounts.present?
       questrade_accounts.each do |qa|
         QuestradeApi::Positions.update(integration, qa)
@@ -16,7 +18,9 @@ module QuestradeApi
     end
 
     def self.headers(integration)
+      puts "@@@@@@@@@@ headers top @@@@@@@@@@@"
       res = HTTParty.get("https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=#{integration.decrypt_string(integration.refresh_token)}", format: :json)
+      puts "@@@@@@@@@@ headers after get call @@@@@@@@@@@"
       integration.update(
         access_token: integration.encrypt_string(res.parsed_response["access_token"]),
         refresh_token: integration.encrypt_string(res.parsed_response["refresh_token"])
