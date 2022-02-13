@@ -1,3 +1,3 @@
 daily_cream_digest_jon:
-  cron: "*/30 * * * * *"
+  cron: "*/5 * * * *"
   class: "SendDailyCreamDigest"
