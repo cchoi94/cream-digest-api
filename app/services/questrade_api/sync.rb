@@ -8,8 +8,6 @@ module QuestradeApi
 
     def call
       questrade_accounts = QuestradeApi::Accounts.get(integration)
-      puts "@@@@@@@@@ questrade_accounts @@@@@@@@@"
-      puts questrade_accounts
       return [] unless questrade_accounts.present?
       questrade_accounts.each do |qa|
         QuestradeApi::Positions.update(integration, qa)
@@ -29,9 +27,6 @@ module QuestradeApi
         Authorization: "Bearer #{res.parsed_response["access_token"]}"
       }
     rescue => error
-      puts "@@@@@@@@@@ error headers @@@@@@@@@"
-      puts error.message
-      puts error
       Rails.logger.error(error.message)
       error
     end
