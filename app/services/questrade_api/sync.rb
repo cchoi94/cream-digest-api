@@ -19,7 +19,8 @@ module QuestradeApi
 
     def self.headers(integration)
       puts "@@@@@@@@@@ headers top @@@@@@@@@@@"
-      res = HTTParty.get("https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=#{integration.decrypt_string(integration.refresh_token)}", format: :json)
+      res = HTTParty.get("https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=#{integration.decrypt_string(integration.refresh_token)}")
+      puts res
       puts "@@@@@@@@@@ headers after get call @@@@@@@@@@@"
       integration.update(
         access_token: integration.encrypt_string(res.parsed_response["access_token"]),
