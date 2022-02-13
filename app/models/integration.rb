@@ -20,6 +20,5 @@ class Integration < ApplicationRecord
     when "questrade"
       QuestradeApi::Sync.call(self)
     end
-    # create_position
   end
 end

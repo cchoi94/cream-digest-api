@@ -16,7 +16,7 @@ module QuestradeApi
     end
 
     def self.headers(integration)
-      res = HTTParty.get("#{ENV["QUESTRADE_REFRESH_TOKEN_URL"]}#{integration.decrypt_string(integration.refresh_token)}", format: :json)
+      res = HTTParty.get("https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=#{integration.decrypt_string(integration.refresh_token)}", format: :json)
       integration.update(
         access_token: integration.encrypt_string(res["access_token"]),
         refresh_token: integration.encrypt_string(res["refresh_token"])
