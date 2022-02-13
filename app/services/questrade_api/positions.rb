@@ -3,7 +3,7 @@ module QuestradeApi
     def self.update(integration, account)
       res = HTTParty.get("https://api01.iq.questrade.com/v1/accounts/#{account["number"]}/positions", headers: headers(integration))
       integration.positions.destroy_all
-      res["positions"].each do |p|
+      res.parsed_response["positions"].each do |p|
         integration.positions << Stock.new(
           account: {
             type: account["type"],

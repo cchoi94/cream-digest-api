@@ -4,7 +4,8 @@ class Api::V1::IntegrationsController < ApplicationController
   before_action :has_oauth_integration?, only: %i[get_oauth_url set_oauth_tokens]
 
   def test_qt
-    current_user.integrations.find(params[:id]).handle_positions_creation
+    # current_user.integrations.find(params[:id]).handle_positions_creation
+    # User.first.integrations.where(name: 'questrade').first.handle_positions_creation
   end
 
   def index

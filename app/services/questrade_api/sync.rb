@@ -18,13 +18,13 @@ module QuestradeApi
     def self.headers(integration)
       res = HTTParty.get("https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=#{integration.decrypt_string(integration.refresh_token)}", format: :json)
       integration.update(
-        access_token: integration.encrypt_string(res["access_token"]),
-        refresh_token: integration.encrypt_string(res["refresh_token"])
+        access_token: integration.encrypt_string(res.parsed_response["access_token"]),
+        refresh_token: integration.encrypt_string(res.parsed_response["refresh_token"])
       )
       {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: "Bearer #{res["access_token"]}"
+        Authorization: "Bearer #{res.parsed_response["access_token"]}"
       }
     end
   end
