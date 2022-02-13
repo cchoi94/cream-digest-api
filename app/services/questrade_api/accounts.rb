@@ -4,7 +4,7 @@ module QuestradeApi
 
     def self.get(integration)
       res = HTTParty.get(BASE_URL, headers: headers(integration))
-      res.parsed_response["accounts"]
+      res["accounts"]
     rescue => error
       Rails.logger.error(error.message)
       error
