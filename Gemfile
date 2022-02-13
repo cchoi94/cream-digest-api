@@ -41,7 +41,7 @@ gem "paper_trail"
 gem "httparty"
 
 # Sidekiq
-gem 'sidekiq', "~> 4.2.1"
+gem "sidekiq", "~> 4.2.1"
 gem "sidekiq-cron", "~> 1.1"
 
 group :development, :test do

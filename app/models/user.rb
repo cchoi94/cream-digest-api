@@ -7,5 +7,7 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable,
     :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
 
-  has_many :integrations
+  has_many :integrations, dependent: :destroy
+  has_many :positions, through: :integrations
+  has_many :balances, through: :integrations
 end

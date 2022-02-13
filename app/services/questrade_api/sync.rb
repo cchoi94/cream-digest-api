@@ -10,8 +10,8 @@ module QuestradeApi
       questrade_accounts = QuestradeApi::Accounts.get(integration)
       return [] unless questrade_accounts.present?
       questrade_accounts.each do |qa|
-        puts qa
         QuestradeApi::Positions.update(integration, qa)
+        QuestradeApi::Balances.update(integration, qa)
       end
     end
 

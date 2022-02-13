@@ -1,6 +1,7 @@
 class Integration < ApplicationRecord
   belongs_to :user
   has_many :positions
+  has_many :balances
 
   def encrypt_string(string)
     crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31],

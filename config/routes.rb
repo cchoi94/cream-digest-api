@@ -1,8 +1,8 @@
-require 'sidekiq/web'
-Sidekiq::Web.app_url = '/'
+require "sidekiq/web"
+Sidekiq::Web.app_url = "/"
 
 Rails.application.routes.draw do
-  mount Sidekiq::Web => '/sidekiq'
+  mount Sidekiq::Web => "/sidekiq"
   devise_for :users,
     defaults: {format: :json},
     controllers: {
@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       resources :integrations
       get "/get_oauth_url", to: "integrations#get_oauth_url"
       get "/test_qt/:id", to: "integrations#test_qt"
+      resources :positions
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

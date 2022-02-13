@@ -60,7 +60,8 @@ Rails.application.configure do
 
   # Mail configuration
   config.action_mailer.default_url_options = {host: "localhost:4200"}
-  config.action_mailer.default_options = {from: "Cream Digest <hello@creamdigest.com>"}
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_options = {from: "Cream Digest <cream@creamdigest.com>"}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {address: "localhost", port: 1025}
   config.action_mailer.asset_host = "http://localhost:3000"

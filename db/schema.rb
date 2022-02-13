@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_12_205654) do
+ActiveRecord::Schema.define(version: 2022_02_13_031356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "balances", force: :cascade do |t|
+    t.string "currency"
+    t.decimal "total_equity"
+    t.decimal "cash"
+    t.decimal "market_value"
+    t.bigint "integration_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["integration_id"], name: "index_balances_on_integration_id"
+  end
 
   create_table "integrations", force: :cascade do |t|
     t.string "access_token"
@@ -66,10 +77,13 @@ ActiveRecord::Schema.define(version: 2022_02_12_205654) do
     t.string "phone", default: ""
     t.boolean "send_daily_email", default: false
     t.json "onboarding", default: {"has_integration"=>false, "has_choosen_option"=>false}
+    t.string "first_name"
+    t.string "last_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "balances", "integrations"
   add_foreign_key "integrations", "users"
   add_foreign_key "positions", "integrations"
 end
