@@ -1,8 +1,8 @@
 module QuestradeApi
   class Accounts < QuestradeApi::Sync
-    BASE_URL = "https://api01.iq.questrade.com/v1/accounts"
-
+    
     def self.get(integration)
+      BASE_URL = "#{integration.host_server}v1/accounts"
       res = HTTParty.get(BASE_URL, headers: headers(integration))
       res["accounts"]
     rescue => error

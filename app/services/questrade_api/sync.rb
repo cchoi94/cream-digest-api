@@ -19,11 +19,12 @@ module QuestradeApi
       res = HTTParty.get("https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=#{integration.decrypt_string(integration.refresh_token)}")
       integration.update(
         access_token: integration.encrypt_string(res["access_token"]),
-        refresh_token: integration.encrypt_string(res["refresh_token"])
+        refresh_token: integration.encrypt_string(res["refresh_token"]),
+        host_server: res["api_server"]
       )
       {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        Host: res["api_server"],
         Authorization: "Bearer #{res["access_token"]}"
       }
     rescue => error
