@@ -22,6 +22,10 @@ module QuestradeApi
         refresh_token: integration.encrypt_string(res["refresh_token"]),
         host_server: res["api_server"]
       )
+      puts "@@@ headers @@@"
+      puts res
+      puts res["api_server"]
+      puts res["access_token"]
       {
         "Content-Type": "application/json",
         Host: res["api_server"],
@@ -29,6 +33,9 @@ module QuestradeApi
       }
     rescue => error
       Rails.logger.error(error.message)
+      puts "@@@@@@@@ headers error @@@@@@"
+      puts error
+      puts error.message
       error
     end
   end
