@@ -3,7 +3,6 @@
 <% red = "color: #cf2a42" %>
 <% green = "color: #008344" %>
 
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -57,7 +56,11 @@
             <p style="<%= col_style %>"><%= (cc.amount * 1).round(0) %></p>
             <p style="<%= col_style %>"><%= ((cc.amount*cc.price) * 1).round(2) %></p>
             <p style="<%= col_style %>"><%= (cc.price * 1).round(2) %></p>
-            <p style="<%= col_style %>; <%= (cc.open_pnl * 1) > 0 ? green : red %>"><%= (cc.open_pnl * 1).round(2) %></p>
+            <% if cc.open_pnl.present? %>
+              <p style="<%= col_style %>; <%= (cc.open_pnl * 1) > 0 ? green : red %>"><%= (cc.open_pnl * 1).round(2) %></p>
+            <% else %>
+              <p>-</p>
+            <% end %>
           </div>
         <% end %>
       <% end %>

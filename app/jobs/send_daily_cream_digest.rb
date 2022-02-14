@@ -3,7 +3,9 @@ class SendDailyCreamDigest
 
   def perform
     User.all.each do |u|
-      u.integrations.where(name: "questrade").first.handle_positions_creation
+      u.integrations.each do |i|
+        i.handle_positions_creation
+      end
       DailyCreamDigestMailer.with(user: u).new_cream_digest.deliver_now
     end
   end
