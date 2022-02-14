@@ -1,7 +1,8 @@
 module QuestradeApi
   class Balances < QuestradeApi::Sync
     def self.update(integration, account)
-      res = HTTParty.get("#{integration.host_server}v1/accounts/#{account["number"]}/balances", headers: headers(integration))
+      new_headers = headers(integration)
+      res = HTTParty.get("#{integration.host_server}v1/accounts/#{account["number"]}/balances", headers: new_headers)
       if integration.balances.present?
         integration.balances.destroy_all
       end
