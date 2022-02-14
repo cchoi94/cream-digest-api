@@ -299,10 +299,10 @@ DEPENDENCIES
   puma (~> 5.0)
   rack-cors
   rails (~> 6.1.4, >= 6.1.4.4)
-  redis (~> 4.0)
+  redis
   sentry-rails
   sentry-ruby
-  sidekiq (~> 5.0.0)
+  sidekiq
   sidekiq-cron (~> 1.1)
   spring
   standardrb
