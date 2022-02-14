@@ -6,8 +6,6 @@ module QuestradeApi
       if integration.balances.present?
         integration.balances.destroy_all
       end
-      puts "@@@@@ balances"
-      puts res["combinedBalances"]
       res["combinedBalances"].each do |b|
         integration.balances.create(
           currency: b["currency"],
