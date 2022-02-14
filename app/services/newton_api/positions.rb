@@ -4,6 +4,7 @@ module NewtonApi
       res = HTTParty.get("https://api.newton.co/v1/balances", headers: headers(integration))
       integration.positions.destroy_all
       res.each do |symbol, value|
+        next unless value != 0.0
         integration.positions << Cryptocurrency.new(
           account: {
             type: "",

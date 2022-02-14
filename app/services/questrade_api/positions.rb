@@ -4,7 +4,7 @@ module QuestradeApi
       res = HTTParty.get("https://api01.iq.questrade.com/v1/accounts/#{account["number"]}/positions", headers: headers(integration))
       integration.positions.destroy_all
       res["positions"].each do |p|
-        next unless p["openQuantity"] >= 0.01
+        next unless p["openQuantity"] > 0
         integration.positions << Stock.new(
           account: {
             type: account["type"],
