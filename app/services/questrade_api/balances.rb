@@ -2,12 +2,12 @@ module QuestradeApi
   class Balances < QuestradeApi::Sync
     def self.update(integration, account)
       new_headers = headers(integration)
-      puts "@@@@@@@@"
-      puts new_headers
       res = HTTParty.get("#{integration.host_server}v1/accounts/#{account["number"]}/balances", headers: new_headers)
       if integration.balances.present?
         integration.balances.destroy_all
       end
+      puts "@@@@@ balances"
+      puts res["combinedBalances"]
       res["combinedBalances"].each do |b|
         integration.balances.create(
           currency: b["currency"],
