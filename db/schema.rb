@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 2022_02_13_031356) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "client_id"
-    t.string "secret_key"
+    t.string "client_key"
+    t.string "client_secret"
     t.index ["user_id"], name: "index_integrations_on_user_id"
   end
 

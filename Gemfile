@@ -14,7 +14,7 @@ gem "puma", "~> 5.0"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem "redis"
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -43,6 +43,11 @@ gem "httparty"
 # Sidekiq
 gem "sidekiq", "~> 4.2.1"
 gem "sidekiq-cron", "~> 1.1"
+
+# Money & Crypto
+gem "money"
+gem "cryptocompare"
+gem "money-currencylayer-bank"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

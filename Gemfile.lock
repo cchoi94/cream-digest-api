@@ -76,6 +76,9 @@ GEM
     concurrent-ruby (1.1.9)
     connection_pool (2.2.5)
     crass (1.0.6)
+    cryptocompare (0.17.0)
+      faraday
+      json
     devise (4.8.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -104,6 +107,10 @@ GEM
       tzinfo
     faker (2.19.0)
       i18n (>= 1.6, < 2)
+    faraday (2.2.0)
+      faraday-net_http (~> 2.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (2.0.1)
     ffi (1.15.5)
     fugit (1.5.2)
       et-orbi (~> 1.1, >= 1.1.8)
@@ -115,6 +122,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.9.1)
       concurrent-ruby (~> 1.0)
+    json (2.6.1)
     jsonapi-renderer (0.2.2)
     jwt (2.3.0)
     listen (3.7.1)
@@ -132,6 +140,14 @@ GEM
     mime-types-data (3.2022.0105)
     mini_mime (1.1.2)
     minitest (5.15.0)
+    monetize (1.12.0)
+      money (~> 6.12)
+    money (6.16.0)
+      i18n (>= 0.6.4, <= 2)
+    money-currencylayer-bank (0.5.7)
+      json (>= 1.8)
+      monetize (~> 1.4)
+      money (~> 6.7)
     msgpack (1.4.4)
     multi_xml (0.6.0)
     nio4r (2.5.8)
@@ -214,6 +230,7 @@ GEM
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     ruby-progressbar (1.11.0)
+    ruby2_keywords (0.0.5)
     sidekiq (4.2.10)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -260,17 +277,21 @@ DEPENDENCIES
   active_model_serializers
   bootsnap (>= 1.4.4)
   byebug
+  cryptocompare
   devise
   devise-jwt
   dotenv-rails
   faker
   httparty
   listen (~> 3.3)
+  money
+  money-currencylayer-bank
   paper_trail
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
   rails (~> 6.1.4, >= 6.1.4.4)
+  redis
   sidekiq (~> 4.2.1)
   sidekiq-cron (~> 1.1)
   spring

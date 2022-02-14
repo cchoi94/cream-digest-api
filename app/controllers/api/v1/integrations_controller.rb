@@ -4,8 +4,8 @@ class Api::V1::IntegrationsController < ApplicationController
   before_action :has_oauth_integration?, only: %i[get_oauth_url set_oauth_tokens]
 
   def test_qt
-    # current_user.integrations.find(params[:id]).handle_positions_creation
-    # User.first.integrations.where(name: 'questrade').first.handle_positions_creation
+    current_user.integrations.find(params[:id]).handle_positions_creation
+    # User.first.integrations.where(name: "questrade").first.handle_positions_creation
   end
 
   def index
@@ -38,7 +38,7 @@ class Api::V1::IntegrationsController < ApplicationController
     @integration.assign_attributes(integration_params)
     encrypted_integration = encrypt_integration(@integration, integration_params)
     if encrypted_integration.save!
-      render json: encrypted_integration
+      render json: encrypted_integration.handle_positions_creation
     else
       render json: encrypted_integration.errors, status: :unprocessable_entity
     end
@@ -68,7 +68,7 @@ class Api::V1::IntegrationsController < ApplicationController
   end
 
   def integration_params
-    params.require(:integration).permit(:name, :user_id, :access_token, :refresh_token, :oauth_code, :client_id, :secret_key)
+    params.require(:integration).permit(:name, :access_token, :refresh_token, :oauth_code, :client_key, :client_secret)
   end
 
   def encrypt_integration(integration, integration_params)
@@ -78,11 +78,11 @@ class Api::V1::IntegrationsController < ApplicationController
     if integration_params[:refresh_token].present?
       integration.refresh_token = integration.encrypt_string(integration.refresh_token)
     end
-    if integration_params[:client_id].present?
-      integration.client_id = integration.encrypt_string(integration.client_id)
+    if integration_params[:client_key].present?
+      integration.client_key = integration.encrypt_string(integration.client_key)
     end
-    if integration_params[:secret_key].present?
-      integration.secret_key = integration.encrypt_string(integration.secret_key)
+    if integration_params[:client_secret].present?
+      integration.client_secret = integration.encrypt_string(integration.client_secret)
     end
     integration
   end

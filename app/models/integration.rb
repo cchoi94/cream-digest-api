@@ -1,7 +1,7 @@
 class Integration < ApplicationRecord
   belongs_to :user
-  has_many :positions
-  has_many :balances
+  has_many :positions, dependent: :destroy
+  has_many :balances, dependent: :destroy
 
   def encrypt_string(string)
     crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secret_key_base[0..31],
@@ -19,6 +19,8 @@ class Integration < ApplicationRecord
     case name
     when "questrade"
       QuestradeApi::Sync.call(self)
+    when "newton"
+      NewtonApi::Sync.call(self)
     end
   end
 end
