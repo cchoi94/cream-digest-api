@@ -2,7 +2,9 @@ module NewtonApi
   class Balances < NewtonApi::Sync
     def self.update(integration)
       res = HTTParty.get("https://api.newton.co/v1/balances", headers: headers(integration))
-      integration.balances.destroy_all
+      if integration.balances.present?
+        integration.balances.destroy_all
+      end
       types_of_currency = ["CAD", "USD"]
       types_of_currency.each do |currency|
         integration.balances.create(

@@ -2,7 +2,9 @@ module QuestradeApi
   class Positions < QuestradeApi::Sync
     def self.update(integration, account)
       res = HTTParty.get("https://api01.iq.questrade.com/v1/accounts/#{account["number"]}/positions", headers: headers(integration))
-      integration.positions.destroy_all
+      if integration.positions.present?
+        integration.positions.destroy_all
+      end
       res["positions"].each do |p|
         next unless p["openQuantity"] > 0
         integration.positions << Stock.new(
