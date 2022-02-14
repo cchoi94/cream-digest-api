@@ -4,8 +4,20 @@ class Api::V1::IntegrationsController < ApplicationController
   before_action :has_oauth_integration?, only: %i[get_oauth_url set_oauth_tokens]
 
   def test_qt
-    current_user.integrations.find(params[:id]).handle_positions_creation
-    # User.first.integrations.where(name: "questrade").first.handle_positions_creation
+    # current_user.integrations.find(params[:id]).handle_positions_creation
+
+    # User.first.integrations.each do |q|
+    #   if (q.name == 'newton')
+    #     q.handle_positions_creation
+    #   end
+    # end
+
+    User.all.each do |u|
+      u.integrations.each do |i|
+        i.handle_positions_creation
+      end
+      DailyCreamDigestMailer.with(user: u).new_cream_digest.deliver_now
+    end
   end
 
   def index

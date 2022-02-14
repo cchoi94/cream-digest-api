@@ -41,7 +41,7 @@ gem "paper_trail"
 gem "httparty"
 
 # Sidekiq
-gem "sidekiq", "~> 6.0.2"
+gem "sidekiq", "~> 5.0.0"
 gem "sidekiq-cron", "~> 1.1"
 
 # Money & Crypto

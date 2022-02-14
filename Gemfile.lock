@@ -239,11 +239,11 @@ GEM
       sentry-ruby-core (= 5.1.0)
     sentry-ruby-core (5.1.0)
       concurrent-ruby
-    sidekiq (6.0.7)
-      connection_pool (>= 2.2.2)
-      rack (~> 2.0)
-      rack-protection (>= 2.0.0)
-      redis (>= 4.1.0)
+    sidekiq (5.0.5)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.4, < 5)
     sidekiq-cron (1.2.0)
       fugit (~> 1.1)
       sidekiq (>= 4.2.1)
@@ -302,7 +302,7 @@ DEPENDENCIES
   redis (~> 4.0)
   sentry-rails
   sentry-ruby
-  sidekiq (~> 6.0.2)
+  sidekiq (~> 5.0.0)
   sidekiq-cron (~> 1.1)
   spring
   standardrb
