@@ -5,7 +5,7 @@ class DailyCreamDigestMailer < ApplicationMailer
     @open_pnl = get_open_pl
     @stocks = @user.positions.where(type: "Stock")
     @cryptocurrencies = @user.positions.where(type: "CryptoCurrency")
-    
+
     mail(
       subject: "Your Morning Cream",
       to: @user.email,

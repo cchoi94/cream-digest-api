@@ -26,7 +26,6 @@ module NewtonApi
         "",
         current_time
       ].join(":")
-      key = integration.decrypt_string(integration.client_key)
       digest = OpenSSL::Digest.new("sha256")
       computed_signature = OpenSSL::HMAC.digest(digest, integration.decrypt_string(integration.client_secret), signature_data)
       {

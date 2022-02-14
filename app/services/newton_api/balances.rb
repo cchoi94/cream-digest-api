@@ -7,7 +7,11 @@ module NewtonApi
       types_of_currency.each do |currency|
         integration.balances.create(
           currency: currency,
-          cash: res["CAD"] >= 0.1 ? currency == "CAD" ? res["CAD"] : convert_currency(res["CAD"], "CAD", "USD") : 0.0,
+          cash: if res["CAD"] >= 0.1
+                  currency == "CAD" ? res["CAD"] : convert_currency(res["CAD"], "CAD", "USD")
+                else
+                  0.0
+                end,
           market_value: get_total_equity_with_currency(res.except(:CAD), currency),
           total_equity: get_total_equity_with_currency(res, currency)
         )
