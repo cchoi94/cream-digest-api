@@ -2,6 +2,8 @@ module QuestradeApi
   class Positions < QuestradeApi::Sync
     def self.update(integration, account)
       new_headers = headers(integration)
+      puts "@@@@@@@@"
+      puts new_headers
       res = HTTParty.get("#{integration.host_server}v1/accounts/#{account["number"]}/positions", headers: new_headers)
       if integration.positions.present?
         integration.positions.destroy_all
