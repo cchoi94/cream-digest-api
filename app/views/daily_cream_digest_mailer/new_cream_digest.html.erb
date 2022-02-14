@@ -2,6 +2,7 @@
 <% col_style = "width: calc(100% / 5); text-align:left; padding: 8px 0" %>
 <% red = "color: #cf2a42" %>
 <% green = "color: #008344" %>
+<% container = "margin-bottom: 16px"%>
 
 <!DOCTYPE html>
 <html>
@@ -14,15 +15,28 @@
       *{
         font-family: 'Source Sans Pro', sans-serif;
         margin: 0;
-        box-sizing: 'border-box'
+        box-sizing: 'border-box';
+        color: #2b2b2b;
+      }
+      body {
+        background: #fff1d0;
+      }
+      p {
+        font-size: 16px;
+        font-weight: 400;
+      }
+      hr {
+        height: 1px;
+        background-color: #d0deff;
+        border: none;
       }
     </style>
   </head>
   <body>
   <div style="padding: 24px">
-    <h3 style="margin-bottom: 24px">Morning<%= @user.first_name %></h3>
+    <h3 style="margin-bottom: 24px">Morning, <%= @user.first_name %></h3>
     <div style="display:flex; align-items:center; margin-bottom: 24px">
-      <h1 style="margin-right: 16px; font-size: 24px">$<%= @total_equity %></h1>
+      <h1 style="margin-right: 16px; font-size: 40px">$<%= @total_equity %></h1>
       <p>P/L day 
         <span style="<%= @open_pnl > 0 ? green : red %>">
           <%=@open_pnl%>
@@ -38,20 +52,24 @@
       </div>
       <hr>
       <% if @stocks.present? %>
-        <% @stocks.each do |st| %>
-          <div class="stock-container" style="display: flex; align-items:center; justify-content:space-between">
-            <p style="<%= col_style %>"><%= st.name.length > 4 ? st.name[0..4] : st.name %></p>
-            <p style="<%= col_style %>"><%= (st.amount * 1).round(0) %></p>
-            <p style="<%= col_style %>"><%= ((st.amount*st.price) * 1).round(2) %></p>
-            <p style="<%= col_style %>"><%= (st.price * 1).round(2) %></p>
-            <p style="<%= col_style %> ; <%= (st.open_pnl * 1) > 0 ? green : red %>"><%= (st.open_pnl * 1).round(2) %></p>
-          </div>
-      <hr>
+        <h3 style="text-align:right">Stock<h3>
+        <% @stocks.each_with_index do |st, index| %>
+            <div class="stock-container" style="display: flex; align-items:center; justify-content:space-between; <%= container %>">
+              <p style="<%= col_style %>"><%= st.name.length > 4 ? st.name[0..4] : st.name %></p>
+              <p style="<%= col_style %>"><%= (st.amount * 1).round(0) %></p>
+              <p style="<%= col_style %>"><%= ((st.amount*st.price) * 1).round(2) %></p>
+              <p style="<%= col_style %>"><%= (st.price * 1).round(2) %></p>
+              <p style="<%= col_style %> ; <%= (st.open_pnl * 1) > 0 ? green : red %>"><%= (st.open_pnl * 1).round(2) %></p>
+            </div>
+            <% if index != @stocks.length - 1%>
+              <hr>
+            <% end %>
         <% end %>
       <% end %>
       <% if @cryptocurrencies.present? %>
-        <% @cryptocurrencies.each do |cc| %>
-          <div class="cryptocurrency-container" style="display: flex; align-items:center; justify-content:space-between">
+        <h3 style="text-align:right">Crypto<h3>
+        <% @cryptocurrencies.each_with_index do |cc, index| %>
+          <div class="cryptocurrency-container" style="display: flex; align-items:center; justify-content:space-between; <%= container %>">
             <p style="<%= col_style %>"><%= cc.name %></p>
             <p style="<%= col_style %>"><%= (cc.amount * 1).round(2) %></p>
             <p style="<%= col_style %>">$<%= ((cc.amount*cc.price) * 1).round(2) %></p>
@@ -62,6 +80,9 @@
               <p style="<%= col_style %>">-</p>
             <% end %>
           </div>
+          <% if index != @stocks.length - 1%>
+            <hr>
+          <% end %>
         <% end %>
       <% end %>
       <hr>

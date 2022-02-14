@@ -50,7 +50,7 @@ module NewtonApi
       balance.each do |crypto_symbol, value|
         symbol = crypto_symbol
         comparision = Cryptocompare::Price.find(symbol, currency, {api_key: Rails.application.credentials.dig(:cryptocompare, :api_key)})
-        total_equity += comparision[symbol][currency]
+        total_equity += (comparision[symbol][currency] * value)
       end
       total_equity
     end

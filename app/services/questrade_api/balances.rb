@@ -6,7 +6,7 @@ module QuestradeApi
       if integration.balances.present?
         integration.balances.destroy_all
       end
-      res["perCurrencyBalances"].each do |b|
+      res["combinedBalances"].each do |b|
         integration.balances.create(
           currency: b["currency"],
           total_equity: b["totalEquity"],
