@@ -8,7 +8,7 @@ Sentry.init do |config|
   config.traces_sample_rate = 0.5
 
   # seperate environments into dashboard
-  config.environments = %w[ production ]
+  config.environment = 'production'
   # or
   config.traces_sampler = lambda do |context|
     true
