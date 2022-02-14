@@ -33,11 +33,11 @@
     </style>
   </head>
   <body>
-  <div style="padding: 24px">
+  <div style="margin: 24px">
     <h3 style="margin-bottom: 24px">Morning, <%= @user.first_name %></h3>
     <div style="display:flex; align-items:center; margin-bottom: 24px">
       <h1 style="margin-right: 16px; font-size: 40px">$<%= @total_equity %></h1>
-      <p>P/L day 
+      <p>Stocks P/L day 
         <span style="<%= @open_pnl > 0 ? green : red %>">
           <%=@open_pnl%>
         </span>

@@ -3,16 +3,22 @@ module QuestradeApi
     def self.update(integration, account)
       new_headers = headers(integration)
       res = HTTParty.get("#{integration.host_server}v1/accounts/#{account["number"]}/balances", headers: new_headers)
-      if integration.balances.present?
-        integration.balances.destroy_all
-      end
       res["combinedBalances"].each do |b|
-        integration.balances.create(
-          currency: b["currency"],
-          total_equity: b["totalEquity"],
-          cash: b["cash"],
-          market_value: b["marketValue"]
-        )
+        existing_balance = integration.balances.find_by(currency: b["currency"])
+        if existing_balance.present?
+          existing_balance.update(
+            total_equity: b["totalEquity"],
+            cash: b["cash"],
+            market_value: b["marketValue"]
+          )
+        else
+          integration.balances.create(
+            currency: b["currency"],
+            total_equity: b["totalEquity"],
+            cash: b["cash"],
+            market_value: b["marketValue"]
+          )
+        end
       end
     rescue => error
       Rails.logger.error(error.message)
