@@ -7,9 +7,9 @@ class DailyCreamDigestMailer < ApplicationMailer
     @cryptocurrencies = @user.positions.where(type: "Cryptocurrency")
 
     mail(
-      subject: "Your Morning Cream",
+      subject: "💸 Your Morning Cream",
       to: @user.email,
-      from: "cream@creamdigest.com",
+      from: "Cream Digest",
       track_opens: "true",
       message_stream: "outbound"
     )
