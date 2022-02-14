@@ -231,6 +231,14 @@ GEM
       rubocop-ast (>= 0.4.0)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
+    sentry-rails (5.1.0)
+      railties (>= 5.0)
+      sentry-ruby-core (~> 5.1.0)
+    sentry-ruby (5.1.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      sentry-ruby-core (= 5.1.0)
+    sentry-ruby-core (5.1.0)
+      concurrent-ruby
     sidekiq (6.0.7)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
@@ -292,6 +300,8 @@ DEPENDENCIES
   rack-cors
   rails (~> 6.1.4, >= 6.1.4.4)
   redis (~> 4.0)
+  sentry-rails
+  sentry-ruby
   sidekiq (~> 6.0.2)
   sidekiq-cron (~> 1.1)
   spring
