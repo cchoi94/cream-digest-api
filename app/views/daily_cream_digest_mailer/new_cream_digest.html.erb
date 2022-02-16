@@ -37,14 +37,20 @@
   <body>
   <div style="margin: 16px auto; padding: 16px; border-radius: 10px; position: relative; max-width: 520px">
     <h3 style="margin-bottom: 24px">☀️ Morning, <%= @user.first_name %></h3>
-    <div style="display:flex; align-items:center; margin-bottom: 24px">
-      <h1 style="margin-right: 16px; font-size: 40px">$<%= @total_equity %></h1>
-      <p>Daily P/L 
-        <span style="<%= @open_pnl > 0 ? green : red %>; padding: 8px; border-radius: 8px; margin-left: 4px">
-          $<%=@open_pnl%>
-        </span>
-      </p>
-    </div>
+    <table style="display:flex; align-items:center; margin-bottom: 24px">
+      <tr>
+        <td>
+          <h1 style="margin-right: 16px; font-size: 40px">$<%= @total_equity %></h1>
+        </td>
+        <td>
+          <p>Daily P/L 
+            <span style="<%= @open_pnl > 0 ? green : red %>; padding: 8px; border-radius: 8px; margin-left: 4px">
+              $<%=@open_pnl%>
+            </span>
+          </p>
+        </td>
+      </tr>
+    </table>
 
       <table role="presentation" class="positions-header" cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
