@@ -15,12 +15,12 @@ class Integration < ApplicationRecord
     crypt.decrypt_and_verify(string)
   end
 
-  def handle_positions_creation
+  def handle_positions_creation(args = {})
     case name
     when "questrade"
-      QuestradeApi::Sync.call(self)
+      QuestradeApi::Sync.call(integration: self, sync_type: args[:sync_type])
     when "newton"
-      NewtonApi::Sync.call(self)
+      NewtonApi::Sync.call(integration: self, sync_type: args[:sync_type])
     end
   end
 end

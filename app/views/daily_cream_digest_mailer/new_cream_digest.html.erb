@@ -1,8 +1,9 @@
 <%# styles %>
 <% col_style = "width: calc(100% / 5); text-align:left; padding: 8px 0" %>
-<% red = "color: #cf2a42" %>
-<% green = "color: #008344" %>
+<% red = "background-color: #FFB3B3" %>
+<% green = "background-color: #BEF2BA" %>
 <% container = "margin-bottom: 16px"%>
+<% hr_inline = "width: calc(100% / 1.25); right:0; position:absolute" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,83 +11,128 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&family=Fira+Sans:ital,wght@0,200;0,400;0,700;1,600&display=swap" rel="stylesheet">
     <style>
       *{
-        font-family: 'Source Sans Pro', sans-serif;
+        font-family: 'Fira Sans', sans-serif;
         margin: 0;
         box-sizing: 'border-box';
-        color: #2b2b2b;
+        color: #39342d;
       }
       body {
-        background: #fff1d0;
+        /* background: #f7f6f5 */
       }
-      p {
+      td {
         font-size: 16px;
         font-weight: 400;
       }
       hr {
         height: 1px;
-        background-color: #d0deff;
+        /* background-color: #d0deff; */
+        background-color: #a0d8ef;
         border: none;
       }
     </style>
   </head>
   <body>
-  <div style="margin: 24px">
-    <h3 style="margin-bottom: 24px">Morning, <%= @user.first_name %></h3>
+  <div style="margin: 16px auto; padding: 16px; border-radius: 10px; position: relative; max-width: 520px">
+    <h3 style="margin-bottom: 24px">☀️ Morning, <%= @user.first_name %></h3>
     <div style="display:flex; align-items:center; margin-bottom: 24px">
       <h1 style="margin-right: 16px; font-size: 40px">$<%= @total_equity %></h1>
-      <p>Stocks P/L day 
-        <span style="<%= @open_pnl > 0 ? green : red %>">
-          <%=@open_pnl%>
+      <p>Daily P/L 
+        <span style="<%= @open_pnl > 0 ? green : red %>; padding: 8px; border-radius: 8px; margin-left: 4px">
+          $<%=@open_pnl%>
         </span>
       </p>
     </div>
-      <div class="positions-header" style="display: flex; align-items:center; justify-content:space-between">
-          <p style="<%= col_style %>">Symbol</p>
-          <p style="<%= col_style %>">Open qty</p>
-          <p style="<%= col_style %>">Equity</p>
-          <p style="<%= col_style %>">Avg price</p>
-          <p style="<%= col_style %>">Open P/L</p>
-      </div>
-      <hr>
+
+      <table role="presentation" class="positions-header" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+          <td style="<%= col_style %>"> </td>
+          <td style="<%= col_style %>"> Qty </td>
+          <td style="<%= col_style %>"> Eqt </td>
+          <td style="<%= col_style %>"> Avg $ </td>
+          <td style="<%= col_style %>"> Open P/L </td>
+        </tr>
+      </table>
+      <hr style="<%= hr_inline %>">
       <% if @stocks.present? %>
-        <h3 style="text-align:right">Stock<h3>
+        <h3 style="margin-top: 16px">Stock<h3>
         <% @stocks.each_with_index do |st, index| %>
-            <div class="stock-container" style="display: flex; align-items:center; justify-content:space-between; <%= container %>">
-              <p style="<%= col_style %>"><%= st.name.length > 4 ? st.name[0..4] : st.name %></p>
-              <p style="<%= col_style %>"><%= (st.amount * 1).round(0) %></p>
-              <p style="<%= col_style %>"><%= ((st.amount*st.price) * 1).round(2) %></p>
-              <p style="<%= col_style %>"><%= (st.price * 1).round(2) %></p>
-              <p style="<%= col_style %> ; <%= (st.open_pnl * 1) > 0 ? green : red %>"><%= (st.open_pnl * 1).round(2) %></p>
-            </div>
+          <table role="presentation" class="stock-container" class="positions-header" cellspacing="0" cellpadding="0" border="0" width="100%">
+            <tr>
+              <td style="<%= col_style %>">
+                <p>
+                  <%= st.name.length > 4 ? st.name[0..4] : st.name %>
+                </p>
+              </td>
+                <td style="<%= col_style %>">
+                <p>
+                  <%= (st.amount * 1).round(0) %></td>
+                </p>
+              <td style="<%= col_style %>">
+                <p>
+                  <%= ((st.amount*st.price) * 1).round(2) %>
+                </p>
+              </td>
+              <td style="<%= col_style %>">
+                <p>
+                  <%= (st.price * 1).round(2) %>
+                </p>
+              </td>
+              <td style="<%= col_style %>">
+                <p 
+                  style="<%= (st.open_pnl * 1) > 0 ? green : red %>;padding: 8px; border-radius: 8px; text-align:center; max-width: 72px"
+                >$<%=(st.open_pnl * (st.open_pnl < 0 ? -1 : 1)).round(2)%>
+                </p>
+              </td>
+            </tr>
+          </table>
             <% if index != @stocks.length - 1%>
-              <hr>
+              <hr style="<%= hr_inline %>">
             <% end %>
         <% end %>
       <% end %>
       <% if @cryptocurrencies.present? %>
-        <h3 style="text-align:right">Crypto<h3>
+        <h3 style="margin-top: 16px">Crypto<h3>
         <% @cryptocurrencies.each_with_index do |cc, index| %>
-          <div class="cryptocurrency-container" style="display: flex; align-items:center; justify-content:space-between; <%= container %>">
-            <p style="<%= col_style %>"><%= cc.name %></p>
-            <p style="<%= col_style %>"><%= (cc.amount * 1).round(2) %></p>
-            <p style="<%= col_style %>">$<%= ((cc.amount*cc.price) * 1).round(2) %></p>
-            <p style="<%= col_style %>">$<%= (cc.price * 1).round(2) %></p>
-            <% if cc.open_pnl.present? %>
-              <p style="<%= col_style %>; <%= (cc.open_pnl * 1) > 0 ? green : red %>"><%= (cc.open_pnl * 1).round(2) %></p>
-            <% else %>
-              <p style="<%= col_style %>">-</p>
-            <% end %>
-          </div>
+          <table role="presentation" class="cryptocurrency-container" class="positions-header" cellspacing="0" cellpadding="0" border="0" width="100%">
+            <tr>
+                <td style="<%= col_style %>">
+                  <p>
+                    <%= cc.name %>
+                  </p>
+                </td>
+                <td style="<%= col_style %>">
+                  <p>
+                    <%= (cc.amount * 1).round(2) %>
+                  </p>
+                </td>
+                <td style="<%= col_style %>">
+                  <p>
+                    <%= ((cc.amount*cc.price) * 1).round(2) %>
+                  </p>
+                </td>
+                <td style="<%= col_style %>">
+                  <p>
+                    <%= (cc.price * 1).round(2) %>
+                  </p>
+                </td>
+                <% if cc.open_pnl.present? %>
+                  <td style="<%= col_style %>; <%= (cc.open_pnl * 1) > 0 ? green : red %>">
+                    <p style="<%= (cc.open_pnl * 1) > 0 ? green : red %>;padding: 8px; border-radius: 8px; text-align:center; max-width: 72px">$<%=(cc.open_pnl * (cc.open_pnl < 0 ? -1 : 1)).round(2)%>
+                    </p>
+                  </td>
+                <% else %>
+                  <td style="<%= col_style %>"><p style="padding: 8px; border-radius: 8px; text-align:center; max-width: 72px">-<p></td>
+                <% end %>
+            </tr>
+          </table>
           <% if index != @stocks.length - 1%>
-            <hr>
+            <hr style="<%= hr_inline %>">
           <% end %>
         <% end %>
       <% end %>
-      <hr>
-      <%= link_to "View on my dashboard", "https://creamdigest.com" %>
   </div>
   </body>
 </html>

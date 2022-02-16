@@ -1,6 +1,6 @@
 module NewtonApi
   class Balances < NewtonApi::Sync
-    def self.update(integration)
+    def self.update(integration, sync_type)
       res = HTTParty.get("https://api.newton.co/v1/balances", headers: headers(integration))
       types_of_currency = ["CAD", "USD"]
       types_of_currency.each do |currency|
@@ -13,7 +13,8 @@ module NewtonApi
                     0.0
                   end,
             market_value: get_total_equity_with_currency(res.except(:CAD), currency),
-            total_equity: get_total_equity_with_currency(res, currency)
+            total_equity: get_total_equity_with_currency(res, currency),
+            yesterday_start_equity: sync_type == "morning" ? existing_balance.total_equity : existing_balance.yesterday_start_equity
           )
         else
           integration.balances.create(

@@ -1,6 +1,6 @@
 module NewtonApi
   class Positions < NewtonApi::Sync
-    def self.update(integration)
+    def self.update(integration, sync_type)
       res = HTTParty.get("https://api.newton.co/v1/balances", headers: headers(integration))
       res.each do |symbol, value|
         next unless value != 0.0
@@ -13,7 +13,8 @@ module NewtonApi
               status: "Active"
             },
             amount: value,
-            price: convert_crypto_to_currency(symbol)
+            price: convert_crypto_to_currency(symbol),
+            yesterday_start_equity: sync_type == "morning" ? existing_position.amount * existing_position.price : existing_position.yesterday_start_equity
           )
         else
           integration.positions << Cryptocurrency.new(

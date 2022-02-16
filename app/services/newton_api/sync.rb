@@ -6,15 +6,16 @@ require "cryptocompare"
 
 module NewtonApi
   class Sync < ApplicationService
-    attr_reader :integration
+    attr_reader :integration, :sync_type
 
-    def initialize(integration)
-      @integration = integration
+    def initialize(args)
+      @integration = args[:integration]
+      @sync_type = args[:sync_type]
     end
 
     def call
-      NewtonApi::Positions.update(integration)
-      NewtonApi::Balances.update(integration)
+      NewtonApi::Positions.update(integration, sync_type)
+      NewtonApi::Balances.update(integration, sync_type)
     end
 
     def self.headers(integration)

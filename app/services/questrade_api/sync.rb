@@ -1,17 +1,18 @@
 module QuestradeApi
   class Sync < ApplicationService
-    attr_reader :integration
+    attr_reader :integration, :sync_type
 
-    def initialize(integration)
-      @integration = integration
+    def initialize(args)
+      @integration = args[:integration]
+      @sync_type = args[:sync_type]
     end
 
     def call
       questrade_accounts = QuestradeApi::Accounts.get(integration)
       return [] unless questrade_accounts.present?
       questrade_accounts.each do |qa|
-        QuestradeApi::Positions.update(integration, qa)
-        QuestradeApi::Balances.update(integration, qa)
+        QuestradeApi::Positions.update(integration, qa, sync_type)
+        QuestradeApi::Balances.update(integration, qa, sync_type)
       end
     end
 

@@ -1,5 +1,5 @@
-require 'sidekiq'
-require 'sidekiq/web'
+require "sidekiq"
+require "sidekiq/web"
 
 schedule_file = "config/schedule.yml"
 if File.exist?(schedule_file) && Sidekiq.server?
@@ -13,5 +13,5 @@ Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
   # - Use & (do not use &&) so that it doesn't short circuit.
   # - Use digests to stop length information leaking
   Rack::Utils.secure_compare(::Digest::SHA256.hexdigest(user), ::Digest::SHA256.hexdigest(Rails.application.credentials.dig(:sidekiq, :username))) &
-  Rack::Utils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(Rails.application.credentials.dig(:sidekiq, :password)))
+    Rack::Utils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(Rails.application.credentials.dig(:sidekiq, :password)))
 end

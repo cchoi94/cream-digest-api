@@ -7,14 +7,14 @@ class Api::V1::IntegrationsController < ApplicationController
     # current_user.integrations.find(params[:id]).handle_positions_creation
 
     # User.first.integrations.each do |q|
-      # if (q.name == 'newton')
-        # q.handle_positions_creation
-      # end
+    # if (q.name == 'newton')
+    # q.handle_positions_creation
+    # end
     # end
 
     User.all.each do |u|
       u.integrations.each do |i|
-        i.handle_positions_creation
+        i.handle_positions_creation(sync_type:"morning")
       end
       DailyCreamDigestMailer.with(user: u).new_cream_digest.deliver_now
     end
