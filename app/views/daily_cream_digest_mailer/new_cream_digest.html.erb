@@ -44,8 +44,8 @@
         </td>
         <td>
           <p style="display:flex; align-items:center">Daily P/L 
-            <span style="<%= @open_pnl > 0 ? green : red %>; padding: 8px; border-radius: 8px; margin-left: 4px">
-              $<%=@open_pnl%>
+            <span style="<%= @day_pnl > 0 ? green : red %>; padding: 8px; border-radius: 8px; margin-left: 4px">
+              $<%= @day_pnl > 0 ? @day_pnl : @day_pnl * -1 %>
             </span>
           </p>
         </td>
