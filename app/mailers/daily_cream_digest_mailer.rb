@@ -22,8 +22,8 @@ class DailyCreamDigestMailer < ApplicationMailer
   end
 
   def get_day_pnl
-    yesterdays_day_pnl = @user.positions.sum(:yesterday_start_equity)
-    todays_day_pnl = @user.positions.sum("price * amount")
+    yesterdays_day_pnl = @user.balances.where(currency: "USD").sum(:yesterday_start_equity)
+    todays_day_pnl = @user.balances.where(currency: "USD").sum(:total_equity)
     day_pnl_difference = todays_day_pnl - yesterdays_day_pnl
     (day_pnl_difference * 1).round(2)
   end
