@@ -18,7 +18,6 @@ module QuestradeApi
 
     def self.headers(integration)
       res = HTTParty.get("https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=#{integration.decrypt_string(integration.refresh_token)}")
-      puts res
       if res.success?
         integration.update(
           access_token: integration.encrypt_string(res["access_token"]),
