@@ -36,6 +36,7 @@ module QuestradeApi
       end
     rescue => error
       Rails.logger.error(error.message)
+      puts error
       error
     end
   end
