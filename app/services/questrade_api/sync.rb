@@ -30,6 +30,8 @@ module QuestradeApi
           Authorization: "Bearer #{res["access_token"]}"
         }
       end
+    rescue => error
+      Rails.logger.error(error.message)
       if res["access_token"].nil? || res["refresh_token"].nil? || res["api_server"].nil?
         puts "Questrade credentials error"
         response = [
@@ -52,9 +54,6 @@ module QuestradeApi
           end
         end
       end
-    rescue => error
-      Rails.logger.error(error.message)
-      puts error
       error
     end
   end
