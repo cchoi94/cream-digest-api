@@ -4,7 +4,7 @@ module QuestradeApi
       new_headers = headers(integration)
       puts new_headers
       res = HTTParty.get("#{integration.host_server}v1/accounts", headers: new_headers)
-      put "@@@ accounts"
+      puts "@@@ accounts"
       puts res["accounts"]
       res["accounts"]
     rescue => error
